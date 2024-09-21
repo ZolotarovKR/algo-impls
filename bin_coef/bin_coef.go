@@ -1,13 +1,15 @@
 package bin_coef
 
+var memo [][]int = [][]int{{1}}
+
 func BinCoef(r, c int) int {
-	binCoefs := make([]int, 1, c+1)
-	binCoefs[0] = 1
-	for j := 1; j <= r; j++ {
-		binCoefs = append(binCoefs, 1)
-		for i := len(binCoefs) - 2; i > 0; i-- {
-			binCoefs[i] = binCoefs[i-1] + binCoefs[i]
+	for j := len(memo); j <= r; j++ {
+		memo = append(memo, make([]int, j+1))
+		memo[j][0] = 1
+		memo[j][j] = 1
+		for i := 1; i < j; i++ {
+			memo[j][i] = memo[j-1][i-1] + memo[j-1][i]
 		}
 	}
-	return binCoefs[c]
+	return memo[r][c]
 }
